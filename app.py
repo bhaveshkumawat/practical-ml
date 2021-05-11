@@ -7,9 +7,9 @@ import matplotlib.pyplot as plt
 import pandas as pd
 st.set_option('deprecation.showfileUploaderEncoding', False)
 # Load the pickled model
-model = pickle.load(open('/content/drive/My Drive/machine learning/midterm/svmmodel.pkl', 'rb'))
+model = pickle.load(open('svmmodel.pkl', 'rb'))
 #model_randomforest = pickle.load(open('/content/drive/My Drive/machine learning/lab5/randomforest.pkl', 'rb'))
-dataset= pd.read_csv('/content/drive/My Drive/machine learning/midterm/Classification Dataset2.csv')
+dataset= pd.read_csv('Classification Dataset2.csv')
 # Extracting dependent and independent variables:
 # Extracting independent variable:
 X = dataset.iloc[:, :-1]
