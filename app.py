@@ -14,7 +14,7 @@ labelencoder_X = LabelEncoder()
 dataset["label"] = labelencoder_X.fit_transform(dataset["label"])
 # Extracting dependent and independent variables:
 # Extracting independent variable:
-X = dataset.iloc[:, :8]
+X = dataset.iloc[:, :9]
 # Extracting dependent variable:
 y = dataset.iloc[:, -1]
 X=X.values
