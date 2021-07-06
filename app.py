@@ -12,7 +12,7 @@ model = pickle.load(open('./pcamodel.pkl', 'rb'))
 from sklearn.preprocessing import StandardScaler
 sc = StandardScaler()
 def predict_note_authentication(meanfreq,sd,median,iqr,skew,kurt,mode,centroid,dfrange):
-  output= model.predict(sc.transform([[Gender,Glucose,BP,Skin,Insulin,BMI,Pfunc,Age]]))
+  output= model.predict(sc.transform([[meanfreq,sd,median,iqr,skew,kurt,mode,centroid,dfrange]]))
   if output==[1]:
     prediction="Person is male"
   else:
