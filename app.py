@@ -32,7 +32,7 @@ from sklearn.preprocessing import StandardScaler
 sc = StandardScaler()
 X = sc.fit_transform(X)
 def predict_note_authentication(meanfreq,sd,median,iqr,skew,kurt,mode,centroid,dfrange):
-  output= model.predict(sc.transform([[meanfreq,sd,median,iqr,skew,kurt,mode,centroid,dfrange]]))
+  output= model.predict([[meanfreq,sd,median,iqr,skew,kurt,mode,centroid,dfrange]])
   if output==[1]:
     prediction="Person is male"
   else:
