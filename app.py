@@ -8,9 +8,28 @@ st.set_option('deprecation.showfileUploaderEncoding', False)
 # Load the pickled model
 model = pickle.load(open('./pcamodel.pkl', 'rb')) 
 #model_randomforest = pickle.load(open('/content/drive/My Drive/machine learning/lab5/randomforest.pkl', 'rb')) 
-#dataset= pd.read_csv('/content/drive/My Drive/machine learning/midterm2/PCA and NN Dataset2.csv')
+dataset= pd.read_csv('./PCA and NN Dataset2.csv')
+from sklearn.preprocessing import LabelEncoder
+labelencoder_X = LabelEncoder()
+dataset["label"] = labelencoder_X.fit_transform(dataset["label"])
+# Extracting dependent and independent variables:
+# Extracting independent variable:
+X = dataset.iloc[:, :-1]
+# Extracting dependent variable:
+y = dataset.iloc[:, -1]
+X=X.values
+y=y.values
+#handling missing data (Replacing missing data with the mean value)  
+from sklearn.impute import SimpleImputer
+imputer = SimpleImputer(missing_values=np.nan, strategy= 'mean', fill_value=None, verbose=0, copy=True  )
+imputer
+#Fitting imputer object to the independent variables x.   
+imputer= imputer.fit(X[:, 0:8])  
+#Replacing missing data with the calculated mean value  
+X[:, 0:8]= imputer.transform(X[:, 0:8])
 from sklearn.preprocessing import StandardScaler
 sc = StandardScaler()
+X = sc.fit_transform(X)
 def predict_note_authentication(meanfreq,sd,median,iqr,skew,kurt,mode,centroid,dfrange):
   output= model.predict(sc.transform([[meanfreq,sd,median,iqr,skew,kurt,mode,centroid,dfrange]]))
   if output==[1]:
