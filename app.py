@@ -6,90 +6,66 @@ import matplotlib.pyplot as plt
 import pandas as pd
 st.set_option('deprecation.showfileUploaderEncoding', False)
 # Load the pickled model
-model = pickle.load(open('svmmodel.pkl', 'rb'))
-#model_randomforest = pickle.load(open('/content/drive/My Drive/machine learning/lab5/randomforest.pkl', 'rb'))
-dataset= pd.read_csv('Classification Dataset2.csv')
-# Extracting dependent and independent variables:
-# Extracting independent variable:
-X = dataset.iloc[:, :-1]
-# Extracting dependent variable:
-y = dataset.iloc[:, -1]
-from sklearn.preprocessing import LabelEncoder
-labelencoder_X = LabelEncoder()
-X["Gender"] = labelencoder_X.fit_transform(X["Gender"])
-X=X.values
-y=y.values
-#handling missing data (Replacing missing data with the mean value)
-from sklearn.impute import SimpleImputer
-imputer = SimpleImputer(missing_values=np.nan, strategy= 'mean', fill_value=None, verbose=0, copy=True  )
-imputer
-#Fitting imputer object to the independent variables x.
-imputer= imputer.fit(X[:, 2:7])
-#Replacing missing data with the calculated mean value
-X[:, 2:7]= imputer.transform(X[:, 2:7])
+model = pickle.load(open('./pcamodel.pkl', 'rb')) 
+#model_randomforest = pickle.load(open('/content/drive/My Drive/machine learning/lab5/randomforest.pkl', 'rb')) 
+#dataset= pd.read_csv('/content/drive/My Drive/machine learning/midterm2/PCA and NN Dataset2.csv')
 from sklearn.preprocessing import StandardScaler
 sc = StandardScaler()
-X = sc.fit_transform(X)
-def predict_note_authentication(Gender,Glucose,BP,Skin,Insulin,BMI,Pfunc,Age):
-  if Gender=="Male": Gender=1
-  else: Gender=0
+def predict_note_authentication(meanfreq,sd,median,iqr,skew,kurt,mode,centroid,dfrange):
   output= model.predict(sc.transform([[Gender,Glucose,BP,Skin,Insulin,BMI,Pfunc,Age]]))
-  print("Purchased", output)
   if output==[1]:
-    prediction="Person will have disease"
+    prediction="Person is male"
   else:
-    prediction="person will not have disease"
+    prediction="person is female"
   print(prediction)
   return prediction
 
 def main():
-
+    
     html_temp = """
    <div class="" style="background-color:blue;" >
-   <div class="clearfix">
+   <div class="clearfix">           
    <div class="col-md-12">
-   <center><p style="font-size:40px;color:white;margin-top:10px;">Poornima Institute of Engineering & Technology</p></center>
-   <center><p style="font-size:30px;color:white;margin-top:10px;">Department of Computer Engineering</p></center>
-   <center><p style="font-size:25px;color:white;margin-top:10px;"Machine Learning Lab Experiment</p></center>
+   <center><p style="font-size:40px;color:white;margin-top:10px;">Poornima Institute of Engineering & Technology</p></center> 
+   <center><p style="font-size:30px;color:white;margin-top:10px;">Department of Computer Engineering</p></center> 
+   <center><p style="font-size:25px;color:white;margin-top:10px;"Machine Learning Lab Experiment</p></center> 
    </div>
    </div>
    </div>
    """
     st.markdown(html_temp,unsafe_allow_html=True)
-    st.header("Item Purchase Prediction using SVM Algorithm")
+    st.header("Gender Prediction using PCA Algorithm")
 
-    Gender = st.selectbox(
-    "Gender",
-    ("Male", "Female", "Others")
-    )
-    Glucose = st.number_input('Insert Glucose Level',0,300)
+    meanfreq = st.number_input('Insert meanfreq')
 
-    BP = st.number_input('Insert BP Level',50,200)
+    sd = st.number_input('Insert sd')
 
-    Skin =  st.number_input('Insert Skin Thickness',0,100)
+    median =  st.number_input('Insert median')
 
-    Insulin  = st.number_input('Insert Insulin Level',0,300)
+    iqr  = st.number_input('Insert iqr')
 
-    BMI   = st.number_input('Insert BMI',0,100)
+    skew   = st.number_input('Insert skew')
 
-    Pfunc  = st.number_input('Insert Pedigree function',0,10)
-
-    Age = st.number_input('Insert a Age',0,100)
+    kurt  = st.number_input('Insert kurt')
+    
+    mode = st.number_input('Insert mode')
+    centroid = st.number_input('Insert centroid')
+    dfrange = st.number_input('Insert dfrange')
     #Age = st.text_input("Age","Type Here")
-
+    
     resul=""
-    if st.button("SVM Prediction"):
-      result=predict_note_authentication(Gender,Glucose,BP,Skin,Insulin,BMI,Pfunc,Age)
-      st.success('SVM Model has predicted {}'.format(result))
-
+    if st.button("PCA Prediction"):
+      result=predict_note_authentication(meanfreq,sd,median,iqr,skew,kurt,mode,centroid,dfrange)
+      st.success('PCA Model has predicted {}'.format(result))
+    
     if st.button("About"):
       st.header("Developed by Bhavesh Kumawat")
       st.subheader("Student , Department of Computer Engineering")
     html_temp = """
     <div class="" style="background-color:orange;" >
-    <div class="clearfix">
+    <div class="clearfix">           
     <div class="col-md-12">
-    <center><p style="font-size:20px;color:white;margin-top:10px;">Machine Learning Experiment 5: Support Vector Machine and Random Forest</p></center>
+    <center><p style="font-size:20px;color:white;margin-top:10px;">Machine Learning Experiment 5: Support Vector Machine and Random Forest</p></center> 
     </div>
     </div>
     </div>
