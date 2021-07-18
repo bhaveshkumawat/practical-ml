@@ -21,16 +21,16 @@ y = dataset.iloc[:, -1]
 X=X.values
 y=y.values
 #handling missing data (Replacing missing data with the mean value)  
-from sklearn.impute import SimpleImputer
-imputer = SimpleImputer(missing_values=np.nan, strategy= 'mean', fill_value=None, verbose=0, copy=True  )
-imputer
+#from sklearn.impute import SimpleImputer
+#imputer = SimpleImputer(missing_values=np.nan, strategy= 'mean', fill_value=None, verbose=0, copy=True  )
+#imputer
 #Fitting imputer object to the independent variables x.   
-imputer= imputer.fit(X[:, 0:8])  
+#imputer= imputer.fit(X[:, 0:8])  
 #Replacing missing data with the calculated mean value  
-X[:, 0:8]= imputer.transform(X[:, 0:8])
-from sklearn.preprocessing import StandardScaler
-sc = StandardScaler()
-X = sc.fit_transform(X)
+#X[:, 0:8]= imputer.transform(X[:, 0:8])
+#from sklearn.preprocessing import StandardScaler
+#sc = StandardScaler()
+#X = sc.fit_transform(X)
 def predict_note_authentication(meanfreq,sd,median,iqr,skew,kurt,mode,centroid,dfrange):
   output= model.predict([[meanfreq,sd,median,iqr,skew,kurt,mode,centroid,dfrange]])
   if output==[1]:
